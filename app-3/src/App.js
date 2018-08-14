@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import SearchWidget from './components/SearchWidget'
+// import SearchWidget from './components/SearchWidget'
 
 class App extends Component
 {
@@ -19,21 +19,26 @@ class App extends Component
       "Alvaro", "Genia", "Lemuel", "Gena", "Karon", "Genoveva", "Clotilde", "Max", 
       "Bryant", "Steve", "Vanetta", "Antonina", "Courtney", "Melody", "Paul"],
     };
+
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput = (x) =>
+  handleInput(x)
   {
-    this.setState({userInput: x.target.value});
+    this.setState({ userInput: x.target.value });
   }
 
   render() {
+    let copy = this.state.clientList.slice();
+    console.log(copy);
+    let filter = copy.filter((x,i)=> (x.toLowerCase().includes(this.state.userInput)));
+    console.log(filter);
+    let clientBlock = filter.map((x,i)=>(<p key={i}>{x}</p>));
+
     return (
-      <div className="App">
-        <SearchWidget 
-          handleInput={this.handleInput}
-          userInput={this.state.userInput}
-          clientList={this.state.clientList}
-        />
+      <div className="puzzleFeed">
+        <input className="inputLine" onChange={(x)=>this.handleInput(x)} value={this.state.userInput}/>
+        <span className="resultsBox">{clientBlock}</span>
       </div>
     );
   }
